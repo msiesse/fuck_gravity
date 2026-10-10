@@ -133,15 +133,15 @@ public class Game : MonoBehaviour
 
         foreach (ObstacleData data in level.obstacles)
         {
-            if (data.prefab == null)
+            if (data.prefab == null || data.data == null)
             {
-                Debug.LogWarning($"{level.name}: obstacle at distance {data.distance} has no prefab, skipped");
+                Debug.LogWarning($"{level.name}: obstacle at distance {data.distance} has no prefab or data, skipped");
                 continue;
             }
 
             LevelObstacle obstacle = Instantiate(data.prefab, levelRoot);
             obstacle.transform.localPosition = new Vector3(PlayerX + data.distance, 0f, 0f);
-            obstacle.Configure(data);
+            obstacle.Configure(data.data);
         }
     }
 }

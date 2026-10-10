@@ -17,71 +17,144 @@ MonoBehaviour:
   obstacles:
   - distance: 20
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 1
-    height: 2
-    width: 1
+    data:
+      rid: 1000
   - distance: 28
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 0
-    height: 3
-    width: 1
+    data:
+      rid: 1001
   - distance: 36
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 1
-    height: 3
-    width: 1
+    data:
+      rid: 1002
   - distance: 44
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 0
-    height: 2
-    width: 3
+    data:
+      rid: 1003
   - distance: 54
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 1
-    height: 2
-    width: 1
+    data:
+      rid: 1004
   - distance: 60
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 0
-    height: 2
-    width: 1
+    data:
+      rid: 1005
   - distance: 66
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 1
-    height: 2
-    width: 1
+    data:
+      rid: 1006
   - distance: 72
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 0
-    height: 2
-    width: 1
+    data:
+      rid: 1007
   - distance: 82
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 0
-    height: 3
-    width: 1
+    data:
+      rid: 1008
   - distance: 88
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 0
-    height: 3
-    width: 1
+    data:
+      rid: 1009
   - distance: 96
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 1
-    height: 3
-    width: 3
+    data:
+      rid: 1010
   - distance: 106
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 0
-    height: 2
-    width: 1
+    data:
+      rid: 1011
   - distance: 112
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 1
-    height: 2
-    width: 1
+    data:
+      rid: 1012
   - distance: 120
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    side: 0
-    height: 3
-    width: 1
+    data:
+      rid: 1013
+  references:
+    version: 2
+    RefIds:
+    - rid: 1000
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 2
+        width: 1
+    - rid: 1001
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 3
+        width: 1
+    - rid: 1002
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 3
+        width: 1
+    - rid: 1003
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 2
+        width: 3
+    - rid: 1004
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 2
+        width: 1
+    - rid: 1005
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 2
+        width: 1
+    - rid: 1006
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 2
+        width: 1
+    - rid: 1007
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 2
+        width: 1
+    - rid: 1008
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 3
+        width: 1
+    - rid: 1009
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 3
+        width: 1
+    - rid: 1010
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 3
+        width: 3
+    - rid: 1011
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 2
+        width: 1
+    - rid: 1012
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 2
+        width: 1
+    - rid: 1013
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 3
+        width: 1

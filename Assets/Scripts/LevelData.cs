@@ -2,26 +2,23 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlatformSide
+// Base class of the per-type parameters of an obstacle (BlockData, DoorData, ...).
+[Serializable]
+public abstract class ObstacleTypeData
 {
-    Floor,
-    Ceiling
+    public ObstacleTypeData Clone() => (ObstacleTypeData)MemberwiseClone();
 }
 
+// One obstacle in a level: what every obstacle has, plus the parameters of its own type.
 [Serializable]
 public class ObstacleData
 {
     // How far the level has to scroll before this obstacle reaches the player.
     public float distance;
-    // The obstacle type: a prefab from Assets/Prefabs/Obstacles. Each type reads only the fields
-    // it lists in LevelObstacle.DataFields, and the Inspector shows only those.
+    // The obstacle type: a prefab from Assets/Prefabs/Obstacles.
     public LevelObstacle prefab;
-    public float width = 1f;
-    public PlatformSide side;
-    public float height = 2f;
-    // Vertical centre of a door's opening; 0 is the middle of the corridor.
-    public float gapCenter;
-    public float gapHeight = 4f;
+    // Parameters of that type. Its class is decided by the prefab, see LevelData.OnValidate.
+    [SerializeReference] public ObstacleTypeData data;
 }
 
 // A hand-authored level. Everything is expressed in world units of distance, not time,
@@ -33,4 +30,21 @@ public class LevelData : ScriptableObject
     // Distance at which the level is complete.
     public float length = 100f;
     public List<ObstacleData> obstacles = new List<ObstacleData>();
+
+    // Runs in the editor whenever the level is loaded or edited: gives every obstacle the data
+    // class its prefab asks for, and its own instance of it (adding a list entry in the Inspector
+    // can leave two entries pointing at the same data).
+    void OnValidate()
+    {
+        var seen = new HashSet<ObstacleTypeData>();
+        foreach (ObstacleData obstacle in obstacles)
+        {
+            if (obstacle.prefab == null)
+                obstacle.data = null;
+            else if (obstacle.data == null || obstacle.data.GetType() != obstacle.prefab.DataType)
+                obstacle.data = obstacle.prefab.CreateData();
+            else if (!seen.Add(obstacle.data))
+                obstacle.data = obstacle.data.Clone();
+        }
+    }
 }

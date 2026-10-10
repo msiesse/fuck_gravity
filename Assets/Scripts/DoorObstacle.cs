@@ -1,17 +1,22 @@
+using System;
 using UnityEngine;
 
-// A wall across the whole corridor with a gap to fly through. Uses gapCenter, gapHeight and width.
-public class DoorObstacle : LevelObstacle
+[Serializable]
+public class DoorData : ObstacleTypeData
+{
+    // Vertical centre of the opening; 0 is the middle of the corridor.
+    public float gapCenter;
+    public float gapHeight = 4f;
+    public float width = 1f;
+}
+
+// A wall across the whole corridor with a gap to fly through.
+public class DoorObstacle : LevelObstacle<DoorData>
 {
     [SerializeField] Transform bottom;
     [SerializeField] Transform top;
 
-    public override string[] DataFields => new[]
-    {
-        nameof(ObstacleData.gapCenter), nameof(ObstacleData.gapHeight), nameof(ObstacleData.width)
-    };
-
-    public override void Configure(ObstacleData data)
+    protected override void Apply(DoorData data)
     {
         float gapBottom = data.gapCenter - data.gapHeight / 2f;
         float gapTop = data.gapCenter + data.gapHeight / 2f;
