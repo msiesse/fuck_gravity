@@ -13,9 +13,15 @@ public class ObstacleData
 {
     // How far the level has to scroll before this obstacle reaches the player.
     public float distance;
+    // The obstacle type: a prefab from Assets/Prefabs/Obstacles. Each type reads only the fields
+    // it lists in LevelObstacle.DataFields, and the Inspector shows only those.
+    public LevelObstacle prefab;
+    public float width = 1f;
     public PlatformSide side;
     public float height = 2f;
-    public float width = 1f;
+    // Vertical centre of a door's opening; 0 is the middle of the corridor.
+    public float gapCenter;
+    public float gapHeight = 4f;
 }
 
 // A hand-authored level. Everything is expressed in world units of distance, not time,

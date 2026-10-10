@@ -15,71 +15,95 @@ MonoBehaviour:
   scrollSpeed: 8
   length: 155
   obstacles:
+  - distance: 10
+    prefab: {fileID: 1002, guid: 033b18506e4c4fe682f781c91ee64323, type: 3}
+    side: 0
+    height: 2
+    width: 1
+    gapCenter: 0
+    gapHeight: 4
   - distance: 20
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 0
     height: 2
     width: 1
   - distance: 30
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 0
     height: 2
     width: 1
   - distance: 40
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 1
     height: 2
     width: 1
   - distance: 48
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 0
     height: 3
     width: 1
   - distance: 56
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 1
     height: 3
     width: 1
   - distance: 64
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 0
     height: 2
     width: 1
   - distance: 71
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 1
     height: 2
     width: 1
   - distance: 78
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 0
     height: 2
     width: 1
   - distance: 88
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 1
     height: 3
     width: 1
   - distance: 93
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 1
     height: 3
     width: 1
   - distance: 100
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 0
     height: 2
     width: 1
   - distance: 106
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 1
     height: 2
     width: 1
   - distance: 112
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 0
     height: 2
     width: 1
   - distance: 118
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 1
     height: 2
     width: 1
   - distance: 124
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 0
     height: 2
     width: 1
   - distance: 134
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 0
     height: 3
     width: 3
   - distance: 144
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     side: 1
     height: 2
     width: 1

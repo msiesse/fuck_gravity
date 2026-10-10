@@ -4,7 +4,7 @@ using UnityEngine;
 public class Game : MonoBehaviour
 {
     const string CatalogPath = "LevelCatalog";   // relative to a Resources folder
-    const float PlatformSurfaceY = 4f;   // inner face of each platform (corridor is 2x this tall)
+    public const float PlatformSurfaceY = 4f;   // inner face of each platform (corridor is 2x this tall)
     const float PlatformThickness = 1f;
     const float PlatformWidth = 60f;
     const float PlayerX = -5f;
@@ -133,16 +133,15 @@ public class Game : MonoBehaviour
 
         foreach (ObstacleData data in level.obstacles)
         {
-            float side = data.side == PlatformSide.Floor ? -1f : 1f;
+            if (data.prefab == null)
+            {
+                Debug.LogWarning($"{level.name}: obstacle at distance {data.distance} has no prefab, skipped");
+                continue;
+            }
 
-            GameObject obstacle = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            obstacle.name = "Obstacle";
-            obstacle.transform.SetParent(levelRoot);
-            obstacle.transform.localPosition = new Vector3(PlayerX + data.distance, side * (PlatformSurfaceY - data.height / 2f), 0f);
-            obstacle.transform.localScale = new Vector3(data.width, data.height, 1f);
-            obstacle.GetComponent<Renderer>().material.color = new Color(1f, 0.3f, 0.3f);
-            obstacle.GetComponent<Collider>().isTrigger = true;
-            obstacle.AddComponent<Obstacle>();
+            LevelObstacle obstacle = Instantiate(data.prefab, levelRoot);
+            obstacle.transform.localPosition = new Vector3(PlayerX + data.distance, 0f, 0f);
+            obstacle.Configure(data);
         }
     }
 }
