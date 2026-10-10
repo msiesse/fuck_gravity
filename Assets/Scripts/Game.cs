@@ -1,26 +1,22 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 // Builds the whole prototype in code when Play is pressed, so the scene needs no setup.
 public class Game : MonoBehaviour
 {
+    const string LevelPath = "Levels/Level1";   // relative to a Resources folder
     const float PlatformSurfaceY = 4f;   // inner face of each platform (corridor is 2x this tall)
     const float PlatformThickness = 1f;
     const float PlatformWidth = 60f;
     const float PlayerX = -5f;
-    const float SpawnX = 14f;
-    const float DespawnX = -14f;
+    const float CompleteDelay = 2f;
 
-    public float scrollSpeed = 8f;
-    public float spawnInterval = 1.2f;
-    public float minObstacleHeight = 1f;
-    public float maxObstacleHeight = 3f;
-
-    readonly List<Transform> obstacles = new List<Transform>();
+    LevelData level;
+    Transform levelRoot;
     Player player;
-    float spawnTimer;
-    float score;
-    float best;
+    float travelled;
+    float bestProgress;
+    float completeTimer;
+    int attempts;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void Bootstrap()
@@ -30,52 +26,54 @@ public class Game : MonoBehaviour
 
     void Start()
     {
+        level = Resources.Load<LevelData>(LevelPath);
+        if (level == null)
+        {
+            Debug.LogError($"No LevelData found at Resources/{LevelPath}");
+            enabled = false;
+            return;
+        }
+
         SetUpCamera();
         CreatePlatform("Floor", -1f);
         CreatePlatform("Ceiling", 1f);
+        BuildLevel();
         CreatePlayer();
         Restart();
     }
 
     void Update()
     {
-        score += Time.deltaTime;
-
-        spawnTimer -= Time.deltaTime;
-        if (spawnTimer <= 0f)
+        if (travelled >= level.length)
         {
-            spawnTimer = spawnInterval;
-            SpawnObstacle();
+            completeTimer -= Time.deltaTime;
+            if (completeTimer <= 0f)
+                Restart();
+            return;
         }
 
-        for (int i = obstacles.Count - 1; i >= 0; i--)
-        {
-            Transform obstacle = obstacles[i];
-            obstacle.position += Vector3.left * (scrollSpeed * Time.deltaTime);
-            if (obstacle.position.x < DespawnX)
-            {
-                Destroy(obstacle.gameObject);
-                obstacles.RemoveAt(i);
-            }
-        }
+        travelled = Mathf.Min(travelled + level.scrollSpeed * Time.deltaTime, level.length);
+        bestProgress = Mathf.Max(bestProgress, Progress);
+        levelRoot.position = Vector3.left * travelled;
     }
 
     void OnGUI()
     {
         var style = new GUIStyle(GUI.skin.label) { fontSize = 28 };
-        GUI.Label(new Rect(20, 16, 600, 40), $"{score:0.0}s   best {best:0.0}s", style);
+        string text = travelled >= level.length
+            ? "Level complete!"
+            : $"{Progress:0}%   best {bestProgress:0}%   attempt {attempts}";
+        GUI.Label(new Rect(20, 16, 800, 40), text, style);
     }
+
+    float Progress => 100f * travelled / level.length;
 
     void Restart()
     {
-        best = Mathf.Max(best, score);
-        score = 0f;
-        spawnTimer = spawnInterval;
-
-        foreach (Transform obstacle in obstacles)
-            Destroy(obstacle.gameObject);
-        obstacles.Clear();
-
+        attempts++;
+        travelled = 0f;
+        completeTimer = CompleteDelay;
+        levelRoot.position = Vector3.zero;
         player.ResetTo(new Vector3(PlayerX, -PlatformSurfaceY + 0.5f, 0f));
     }
 
@@ -112,19 +110,24 @@ public class Game : MonoBehaviour
         player.Died += Restart;
     }
 
-    void SpawnObstacle()
+    // Every obstacle is created once, as a child of one root that scrolls left as a whole.
+    void BuildLevel()
     {
-        float height = Random.Range(minObstacleHeight, maxObstacleHeight);
-        float side = Random.value < 0.5f ? -1f : 1f;
+        levelRoot = new GameObject("Level").transform;
+        levelRoot.gameObject.AddComponent<Rigidbody>().isKinematic = true;
 
-        GameObject obstacle = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        obstacle.name = "Obstacle";
-        obstacle.transform.position = new Vector3(SpawnX, side * (PlatformSurfaceY - height / 2f), 0f);
-        obstacle.transform.localScale = new Vector3(1f, height, 1f);
-        obstacle.GetComponent<Renderer>().material.color = new Color(1f, 0.3f, 0.3f);
-        obstacle.GetComponent<Collider>().isTrigger = true;
-        obstacle.AddComponent<Rigidbody>().isKinematic = true;
-        obstacle.AddComponent<Obstacle>();
-        obstacles.Add(obstacle.transform);
+        foreach (ObstacleData data in level.obstacles)
+        {
+            float side = data.side == PlatformSide.Floor ? -1f : 1f;
+
+            GameObject obstacle = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            obstacle.name = "Obstacle";
+            obstacle.transform.SetParent(levelRoot);
+            obstacle.transform.localPosition = new Vector3(PlayerX + data.distance, side * (PlatformSurfaceY - data.height / 2f), 0f);
+            obstacle.transform.localScale = new Vector3(data.width, data.height, 1f);
+            obstacle.GetComponent<Renderer>().material.color = new Color(1f, 0.3f, 0.3f);
+            obstacle.GetComponent<Collider>().isTrigger = true;
+            obstacle.AddComponent<Obstacle>();
+        }
     }
 }

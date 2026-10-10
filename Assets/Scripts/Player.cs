@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (FlipPressed() && (!flipOnlyWhenGrounded || IsGrounded()))
+        if (FlipPressed())
             gravityDirection = -gravityDirection;
     }
 
@@ -48,12 +48,12 @@ public class Player : MonoBehaviour
         transform.position = position;
     }
 
-    bool IsGrounded()
-    {
-        float reach = transform.localScale.y / 2f + 0.05f;
-        return Physics.Raycast(transform.position, Vector3.up * gravityDirection, reach,
-            Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
-    }
+    // bool IsGrounded()
+    // {
+    //     float reach = transform.localScale.y / 2f + 0.05f;
+    //     return Physics.Raycast(transform.position, Vector3.up * gravityDirection, reach,
+    //         Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+    // }
 
     static bool FlipPressed()
     {

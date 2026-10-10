@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0625ca013c2466bb542cb08871fa851, type: 3}
+  m_Name: Level1
+  m_EditorClassIdentifier:
+  scrollSpeed: 8
+  length: 155
+  obstacles:
+  - distance: 20
+    side: 0
+    height: 2
+    width: 1
+  - distance: 30
+    side: 0
+    height: 2
+    width: 1
+  - distance: 40
+    side: 1
+    height: 2
+    width: 1
+  - distance: 48
+    side: 0
+    height: 3
+    width: 1
+  - distance: 56
+    side: 1
+    height: 3
+    width: 1
+  - distance: 64
+    side: 0
+    height: 2
+    width: 1
+  - distance: 71
+    side: 1
+    height: 2
+    width: 1
+  - distance: 78
+    side: 0
+    height: 2
+    width: 1
+  - distance: 88
+    side: 1
+    height: 3
+    width: 1
+  - distance: 93
+    side: 1
+    height: 3
+    width: 1
+  - distance: 100
+    side: 0
+    height: 2
+    width: 1
+  - distance: 106
+    side: 1
+    height: 2
+    width: 1
+  - distance: 112
+    side: 0
+    height: 2
+    width: 1
+  - distance: 118
+    side: 1
+    height: 2
+    width: 1
+  - distance: 124
+    side: 0
+    height: 2
+    width: 1
+  - distance: 134
+    side: 0
+    height: 3
+    width: 3
+  - distance: 144
+    side: 1
+    height: 2
+    width: 1
