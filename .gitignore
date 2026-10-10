@@ -1,0 +1,16 @@
+# Ignore everything
+/*
+
+# Track these directories
+!/Assets/
+!/Packages/
+!/ProjectSettings/
+!/Art/
+!/.gitignore
+!/.gitattributes
+!Notes.md
+!/Narrative
+!/Puzzles
+
+# Blender autosave backups (.blend1, .blend2, ...)
+*.blend[0-9]*
