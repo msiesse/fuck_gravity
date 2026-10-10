@@ -3,13 +3,15 @@ using UnityEngine;
 // Builds the whole prototype in code when Play is pressed, so the scene needs no setup.
 public class Game : MonoBehaviour
 {
-    const string LevelPath = "Levels/Level1";   // relative to a Resources folder
+    const string CatalogPath = "LevelCatalog";   // relative to a Resources folder
     const float PlatformSurfaceY = 4f;   // inner face of each platform (corridor is 2x this tall)
     const float PlatformThickness = 1f;
     const float PlatformWidth = 60f;
     const float PlayerX = -5f;
     const float CompleteDelay = 2f;
 
+    LevelCatalog catalog;
+    int levelIndex;
     LevelData level;
     Transform levelRoot;
     Player player;
@@ -26,10 +28,10 @@ public class Game : MonoBehaviour
 
     void Start()
     {
-        level = Resources.Load<LevelData>(LevelPath);
-        if (level == null)
+        catalog = Resources.Load<LevelCatalog>(CatalogPath);
+        if (catalog == null || catalog.levels.Count == 0)
         {
-            Debug.LogError($"No LevelData found at Resources/{LevelPath}");
+            Debug.LogError($"No LevelCatalog with levels found at Resources/{CatalogPath}");
             enabled = false;
             return;
         }
@@ -37,9 +39,8 @@ public class Game : MonoBehaviour
         SetUpCamera();
         CreatePlatform("Floor", -1f);
         CreatePlatform("Ceiling", 1f);
-        BuildLevel();
         CreatePlayer();
-        Restart();
+        LoadLevel(0);
     }
 
     void Update()
@@ -48,7 +49,7 @@ public class Game : MonoBehaviour
         {
             completeTimer -= Time.deltaTime;
             if (completeTimer <= 0f)
-                Restart();
+                LoadLevel((levelIndex + 1) % catalog.levels.Count);
             return;
         }
 
@@ -61,12 +62,26 @@ public class Game : MonoBehaviour
     {
         var style = new GUIStyle(GUI.skin.label) { fontSize = 28 };
         string text = travelled >= level.length
-            ? "Level complete!"
-            : $"{Progress:0}%   best {bestProgress:0}%   attempt {attempts}";
+            ? $"{level.name} complete!"
+            : $"{level.name}   {Progress:0}%   best {bestProgress:0}%   attempt {attempts}";
         GUI.Label(new Rect(20, 16, 800, 40), text, style);
     }
 
     float Progress => 100f * travelled / level.length;
+
+    // Swaps the obstacles for those of another level; platforms, camera and player are kept.
+    void LoadLevel(int index)
+    {
+        if (levelRoot != null)
+            Destroy(levelRoot.gameObject);
+
+        levelIndex = index;
+        level = catalog.levels[index];
+        bestProgress = 0f;
+        attempts = 0;
+        BuildLevel();
+        Restart();
+    }
 
     void Restart()
     {
