@@ -1,0 +1,64 @@
+using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+[RequireComponent(typeof(Rigidbody))]
+public class Player : MonoBehaviour
+{
+    public float gravity = 60f;
+    public bool flipOnlyWhenGrounded = true;
+
+    public event Action Died;
+
+    Rigidbody body;
+    float gravityDirection = -1f;
+
+    void Awake()
+    {
+        body = GetComponent<Rigidbody>();
+        body.useGravity = false;
+        body.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        body.constraints = RigidbodyConstraints.FreezePositionX
+                         | RigidbodyConstraints.FreezePositionZ
+                         | RigidbodyConstraints.FreezeRotation;
+    }
+
+    void Update()
+    {
+        if (FlipPressed() && (!flipOnlyWhenGrounded || IsGrounded()))
+            gravityDirection = -gravityDirection;
+    }
+
+    void FixedUpdate()
+    {
+        body.AddForce(Vector3.up * (gravityDirection * gravity), ForceMode.Acceleration);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Obstacle>() != null)
+            Died?.Invoke();
+    }
+
+    public void ResetTo(Vector3 position)
+    {
+        gravityDirection = -1f;
+        body.linearVelocity = Vector3.zero;
+        body.position = position;
+        transform.position = position;
+    }
+
+    bool IsGrounded()
+    {
+        float reach = transform.localScale.y / 2f + 0.05f;
+        return Physics.Raycast(transform.position, Vector3.up * gravityDirection, reach,
+            Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+    }
+
+    static bool FlipPressed()
+    {
+        return (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+            || (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+            || (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame);
+    }
+}
