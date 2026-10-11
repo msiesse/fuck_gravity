@@ -17,59 +17,59 @@ MonoBehaviour:
   obstacles:
   - distance: 20
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1000
   - distance: 28
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1001
   - distance: 36
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1002
   - distance: 44
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1003
   - distance: 54
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1004
   - distance: 60
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1005
   - distance: 66
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1006
   - distance: 72
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1007
   - distance: 82
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1008
   - distance: 88
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1009
   - distance: 96
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1010
   - distance: 106
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1011
   - distance: 112
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1012
   - distance: 120
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
-    data:
+    typeData:
       rid: 1013
   references:
     version: 2

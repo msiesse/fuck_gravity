@@ -18,7 +18,7 @@ public class ObstacleData
     // The obstacle type: a prefab from Assets/Prefabs/Obstacles.
     public LevelObstacle prefab;
     // Parameters of that type. Its class is decided by the prefab, see LevelData.OnValidate.
-    [SerializeReference] public ObstacleTypeData data;
+    [SerializeReference] public ObstacleTypeData typeData;
 }
 
 // A hand-authored level. Everything is expressed in world units of distance, not time,
@@ -40,11 +40,11 @@ public class LevelData : ScriptableObject
         foreach (ObstacleData obstacle in obstacles)
         {
             if (obstacle.prefab == null)
-                obstacle.data = null;
-            else if (obstacle.data == null || obstacle.data.GetType() != obstacle.prefab.DataType)
-                obstacle.data = obstacle.prefab.CreateData();
-            else if (!seen.Add(obstacle.data))
-                obstacle.data = obstacle.data.Clone();
+                obstacle.typeData = null;
+            else if (obstacle.typeData == null || obstacle.typeData.GetType() != obstacle.prefab.DataType)
+                obstacle.typeData = obstacle.prefab.CreateData();
+            else if (!seen.Add(obstacle.typeData))
+                obstacle.typeData = obstacle.typeData.Clone();
         }
     }
 }

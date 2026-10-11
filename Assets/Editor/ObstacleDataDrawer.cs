@@ -45,7 +45,7 @@ public class ObstacleDataDrawer : PropertyDrawer
         yield return property.FindPropertyRelative(nameof(ObstacleData.prefab));
 
         // The type's own fields, drawn inline instead of under a nested "Data" foldout.
-        SerializedProperty data = property.FindPropertyRelative(nameof(ObstacleData.data));
+        SerializedProperty data = property.FindPropertyRelative(nameof(ObstacleData.typeData));
         SerializedProperty end = data.GetEndProperty();
         SerializedProperty field = data.Copy();
         bool more = field.NextVisible(true);
