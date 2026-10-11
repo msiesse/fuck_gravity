@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0625ca013c2466bb542cb08871fa851, type: 3}
   m_Name: Level2
   m_EditorClassIdentifier: 
-  scrollSpeed: 10
+  startSpeed: 10
+  endSpeed: 10
   length: 130
   obstacles:
   - distance: 20

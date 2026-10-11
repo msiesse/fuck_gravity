@@ -22,11 +22,14 @@ public class ObstacleData
 }
 
 // A hand-authored level. Everything is expressed in world units of distance, not time,
-// so changing scrollSpeed makes the level faster without moving the obstacles.
+// so changing the speeds makes the level faster without moving the obstacles.
 [CreateAssetMenu(fileName = "Level", menuName = "Fuck Gravity/Level")]
 public class LevelData : ScriptableObject
 {
-    public float scrollSpeed = 8f;
+    // Scroll speed at the start and at the end of the level; it changes linearly with distance
+    // in between, so halfway through the level the speed is halfway between the two.
+    public float startSpeed = 8f;
+    public float endSpeed = 8f;
     // Distance at which the level is complete.
     public float length = 100f;
     public List<ObstacleData> obstacles = new List<ObstacleData>();

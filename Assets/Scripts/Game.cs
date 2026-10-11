@@ -53,7 +53,8 @@ public class Game : MonoBehaviour
             return;
         }
 
-        travelled = Mathf.Min(travelled + level.scrollSpeed * Time.deltaTime, level.length);
+        float speed = Mathf.Lerp(level.startSpeed, level.endSpeed, travelled / level.length);
+        travelled = Mathf.Min(travelled + speed * Time.deltaTime, level.length);
         bestProgress = Mathf.Max(bestProgress, Progress);
         levelRoot.position = Vector3.left * travelled;
     }
