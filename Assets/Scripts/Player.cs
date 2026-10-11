@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
-    public float gravity = 60f;
+    public float gravity = 30f;
+    // Speed the cube gets in the new direction the instant gravity flips, replacing its old momentum.
+    public float flipSpeed = 4f;
     public bool flipOnlyWhenGrounded = true;
 
     public event Action Died;
@@ -26,7 +28,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (FlipPressed())
+        {
             gravityDirection = -gravityDirection;
+            body.linearVelocity = Vector3.up * (gravityDirection * flipSpeed);
+        }
     }
 
     void FixedUpdate()

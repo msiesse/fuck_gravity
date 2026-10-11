@@ -15,71 +15,186 @@ MonoBehaviour:
   scrollSpeed: 8
   length: 155
   obstacles:
+  - distance: 10
+    prefab: {fileID: 1002, guid: 033b18506e4c4fe682f781c91ee64323, type: 3}
+    typeData:
+      rid: 1000
   - distance: 20
-    side: 0
-    height: 2
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1001
   - distance: 30
-    side: 0
-    height: 2
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1002
   - distance: 40
-    side: 1
-    height: 2
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1003
   - distance: 48
-    side: 0
-    height: 3
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1004
   - distance: 56
-    side: 1
-    height: 3
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1005
   - distance: 64
-    side: 0
-    height: 2
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1006
   - distance: 71
-    side: 1
-    height: 2
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1007
   - distance: 78
-    side: 0
-    height: 2
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1008
   - distance: 88
-    side: 1
-    height: 3
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1009
   - distance: 93
-    side: 1
-    height: 3
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1010
   - distance: 100
-    side: 0
-    height: 2
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1011
   - distance: 106
-    side: 1
-    height: 2
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1012
   - distance: 112
-    side: 0
-    height: 2
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1013
   - distance: 118
-    side: 1
-    height: 2
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1014
   - distance: 124
-    side: 0
-    height: 2
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1015
   - distance: 134
-    side: 0
-    height: 3
-    width: 3
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1016
   - distance: 144
-    side: 1
-    height: 2
-    width: 1
+    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    typeData:
+      rid: 1017
+  references:
+    version: 2
+    RefIds:
+    - rid: 1000
+      type: {class: DoorData, ns: , asm: Assembly-CSharp}
+      data:
+        gapCenter: 0
+        gapHeight: 4
+        width: 1
+    - rid: 1001
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 2
+        width: 1
+    - rid: 1002
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 2
+        width: 1
+    - rid: 1003
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 2
+        width: 1
+    - rid: 1004
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 3
+        width: 1
+    - rid: 1005
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 3
+        width: 1
+    - rid: 1006
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 2
+        width: 1
+    - rid: 1007
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 2
+        width: 1
+    - rid: 1008
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 2
+        width: 1
+    - rid: 1009
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 3
+        width: 1
+    - rid: 1010
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 3
+        width: 1
+    - rid: 1011
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 2
+        width: 1
+    - rid: 1012
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 2
+        width: 1
+    - rid: 1013
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 2
+        width: 1
+    - rid: 1014
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 2
+        width: 1
+    - rid: 1015
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 2
+        width: 1
+    - rid: 1016
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 0
+        height: 3
+        width: 3
+    - rid: 1017
+      type: {class: BlockData, ns: , asm: Assembly-CSharp}
+      data:
+        side: 1
+        height: 2
+        width: 1
