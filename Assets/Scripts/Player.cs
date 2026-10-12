@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     // Speed the cube gets in the new direction the instant gravity flips, replacing its old momentum.
     public float flipSpeed = 4f;
     public bool flipOnlyWhenGrounded = true;
+    // Experiment: gravity flips by itself whenever the cube touches the floor or the ceiling.
+    public bool flipOnPlatformTouch;
 
     public event Action Died;
     public event Action<Collectible> Collected;
@@ -29,15 +31,32 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (FlipPressed())
-        {
-            gravityDirection = -gravityDirection;
-            body.linearVelocity = Vector3.up * (gravityDirection * flipSpeed);
-        }
+            SetGravity(-gravityDirection);
     }
 
     void FixedUpdate()
     {
         body.AddForce(Vector3.up * (gravityDirection * gravity), ForceMode.Acceleration);
+    }
+
+    void SetGravity(float direction)
+    {
+        gravityDirection = direction;
+        body.linearVelocity = Vector3.up * (gravityDirection * flipSpeed);
+    }
+
+    // Only the platforms are solid; obstacles and collectibles are triggers.
+    void OnCollisionEnter(Collision collision) => PushAwayFromPlatform();
+    void OnCollisionStay(Collision collision) => PushAwayFromPlatform();
+
+    void PushAwayFromPlatform()
+    {
+        if (!flipOnPlatformTouch)
+            return;
+
+        float away = transform.position.y > 0f ? -1f : 1f;
+        if (gravityDirection != away)
+            SetGravity(away);
     }
 
     void OnTriggerEnter(Collider other)
