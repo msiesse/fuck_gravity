@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Builds the whole prototype in code when Play is pressed, so the scene needs no setup.
@@ -9,6 +10,7 @@ public class Game : MonoBehaviour
     const float PlatformWidth = 60f;
     const float PlayerX = -5f;
     const float CompleteDelay = 2f;
+    const float CollectibleSize = 0.6f;
 
     LevelCatalog catalog;
     int levelIndex;
@@ -19,6 +21,8 @@ public class Game : MonoBehaviour
     float bestProgress;
     float completeTimer;
     int attempts;
+    readonly List<Collectible> collectibles = new List<Collectible>();
+    int collected;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void Bootstrap()
@@ -63,13 +67,13 @@ public class Game : MonoBehaviour
         var style = new GUIStyle(GUI.skin.label) { fontSize = 28 };
         string text = travelled >= level.length
             ? $"{level.name} complete!"
-            : $"{level.name}   {Progress:0}%   best {bestProgress:0}%   attempt {attempts}";
+            : $"{level.name}   {Progress:0}%   best {bestProgress:0}%   attempt {attempts}   coins {collected}/{collectibles.Count}";
         GUI.Label(new Rect(20, 16, 800, 40), text, style);
     }
 
     float Progress => 100f * travelled / level.length;
 
-    // Swaps the obstacles for those of another level; platforms, camera and player are kept.
+    // Swaps the obstacles and collectibles for those of another level; platforms, camera and player are kept.
     void LoadLevel(int index)
     {
         if (levelRoot != null)
@@ -88,6 +92,9 @@ public class Game : MonoBehaviour
         attempts++;
         travelled = 0f;
         completeTimer = CompleteDelay;
+        collected = 0;
+        foreach (Collectible collectible in collectibles)
+            collectible.gameObject.SetActive(true);
         levelRoot.position = Vector3.zero;
         player.ResetTo(new Vector3(PlayerX, -PlatformSurfaceY + 0.5f, 0f));
     }
@@ -123,9 +130,16 @@ public class Game : MonoBehaviour
         cube.GetComponent<Renderer>().material.color = new Color(0.2f, 0.8f, 1f);
         player = cube.AddComponent<Player>();
         player.Died += Restart;
+        player.Collected += Collect;
     }
 
-    // Every obstacle is created once, as a child of one root that scrolls left as a whole.
+    void Collect(Collectible collectible)
+    {
+        collectible.gameObject.SetActive(false);
+        collected++;
+    }
+
+    // Every obstacle and collectible is created once, as a child of one root that scrolls left as a whole.
     void BuildLevel()
     {
         levelRoot = new GameObject("Level").transform;
@@ -142,6 +156,19 @@ public class Game : MonoBehaviour
             LevelObstacle obstacle = Instantiate(data.prefab, levelRoot);
             obstacle.transform.localPosition = new Vector3(PlayerX + data.distance, 0f, 0f);
             obstacle.Configure(data.typeData);
+        }
+
+        collectibles.Clear();
+        foreach (CollectibleData data in level.collectibles)
+        {
+            GameObject coin = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            coin.name = "Collectible";
+            coin.transform.SetParent(levelRoot);
+            coin.transform.localPosition = new Vector3(PlayerX + data.distance, data.y, 0f);
+            coin.transform.localScale = Vector3.one * CollectibleSize;
+            coin.GetComponent<Renderer>().material.color = new Color(1f, 0.8f, 0.1f);
+            coin.GetComponent<Collider>().isTrigger = true;
+            collectibles.Add(coin.AddComponent<Collectible>());
         }
     }
 }

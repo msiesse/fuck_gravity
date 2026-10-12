@@ -87,6 +87,13 @@ MonoBehaviour:
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     typeData:
       rid: 1017
+  collectibles:
+  - distance: 15
+    y: -3.5
+  - distance: 20
+    y: 3.5
+  - distance: 40
+    y: -3.5
   references:
     version: 2
     RefIds:
