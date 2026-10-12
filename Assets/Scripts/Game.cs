@@ -8,7 +8,7 @@ public class Game : MonoBehaviour
     public const float PlatformSurfaceY = 4f;   // inner face of each platform (corridor is 2x this tall)
     const float PlatformThickness = 1f;
     const float PlatformWidth = 60f;
-    const float PlayerX = -5f;
+    public const float PlayerX = -5f;
     const float CompleteDelay = 2f;
     const float CollectibleSize = 0.6f;
 
