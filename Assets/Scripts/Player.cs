@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public bool flipOnlyWhenGrounded = true;
 
     public event Action Died;
+    public event Action<Collectible> Collected;
 
     Rigidbody body;
     float gravityDirection = -1f;
@@ -41,8 +42,10 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Obstacle>() != null)
+        if (other.TryGetComponent(out Obstacle _))
             Died?.Invoke();
+        else if (other.TryGetComponent(out Collectible collectible))
+            Collected?.Invoke(collectible);
     }
 
     public void ResetTo(Vector3 position)

@@ -21,6 +21,16 @@ public class ObstacleData
     [SerializeReference] public ObstacleTypeData typeData;
 }
 
+// One collectible in a level.
+[Serializable]
+public class CollectibleData
+{
+    // How far the level has to scroll before this collectible reaches the player.
+    public float distance;
+    // Vertical position; 0 is the middle of the corridor.
+    public float y;
+}
+
 // A hand-authored level. Everything is expressed in world units of distance, not time,
 // so changing scrollSpeed makes the level faster without moving the obstacles.
 [CreateAssetMenu(fileName = "Level", menuName = "Fuck Gravity/Level")]
@@ -30,6 +40,7 @@ public class LevelData : ScriptableObject
     // Distance at which the level is complete.
     public float length = 100f;
     public List<ObstacleData> obstacles = new List<ObstacleData>();
+    public List<CollectibleData> collectibles = new List<CollectibleData>();
 
     // Runs in the editor whenever the level is loaded or edited: gives every obstacle the data
     // class its prefab asks for, and its own instance of it (adding a list entry in the Inspector
