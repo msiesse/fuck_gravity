@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Obstacle>() != null)
+        if (other.TryGetComponent(out Obstacle _))
             Died?.Invoke();
         else if (other.TryGetComponent(out Collectible collectible))
             Collected?.Invoke(collectible);
