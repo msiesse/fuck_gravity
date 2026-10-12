@@ -11,22 +11,22 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0625ca013c2466bb542cb08871fa851, type: 3}
   m_Name: Level1
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   scrollSpeed: 8
   length: 155
   obstacles:
-  - distance: 10
-    prefab: {fileID: 1002, guid: 033b18506e4c4fe682f781c91ee64323, type: 3}
-    typeData:
-      rid: 1000
-  - distance: 20
+  - distance: 13
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     typeData:
       rid: 1001
-  - distance: 30
+  - distance: 20
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     typeData:
       rid: 1002
+  - distance: 30
+    prefab: {fileID: 1002, guid: 1758e024e9424b8a82498b5b59f46851, type: 3}
+    typeData:
+      rid: 6013222738389106772
   - distance: 40
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     typeData:
@@ -48,13 +48,13 @@ MonoBehaviour:
     typeData:
       rid: 1007
   - distance: 78
-    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    prefab: {fileID: 1002, guid: 1758e024e9424b8a82498b5b59f46851, type: 3}
     typeData:
-      rid: 1008
+      rid: 6013222738389106773
   - distance: 88
-    prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
+    prefab: {fileID: 1002, guid: 1758e024e9424b8a82498b5b59f46851, type: 3}
     typeData:
-      rid: 1009
+      rid: 6013222738389106774
   - distance: 93
     prefab: {fileID: 1002, guid: edbbf1e1113744af8dbb59cd4d97826e, type: 3}
     typeData:
@@ -88,21 +88,13 @@ MonoBehaviour:
     typeData:
       rid: 1017
   collectibles:
-  - distance: 15
+  - distance: 16.5
     y: -3.5
-  - distance: 20
-    y: 3.5
-  - distance: 40
-    y: -3.5
+  - distance: 90.5
+    y: 0
   references:
     version: 2
     RefIds:
-    - rid: 1000
-      type: {class: DoorData, ns: , asm: Assembly-CSharp}
-      data:
-        gapCenter: 0
-        gapHeight: 4
-        width: 1
     - rid: 1001
       type: {class: BlockData, ns: , asm: Assembly-CSharp}
       data:
@@ -144,18 +136,6 @@ MonoBehaviour:
       data:
         side: 1
         height: 2
-        width: 1
-    - rid: 1008
-      type: {class: BlockData, ns: , asm: Assembly-CSharp}
-      data:
-        side: 0
-        height: 2
-        width: 1
-    - rid: 1009
-      type: {class: BlockData, ns: , asm: Assembly-CSharp}
-      data:
-        side: 1
-        height: 3
         width: 1
     - rid: 1010
       type: {class: BlockData, ns: , asm: Assembly-CSharp}
@@ -205,3 +185,30 @@ MonoBehaviour:
         side: 1
         height: 2
         width: 1
+    - rid: 6013222738389106772
+      type: {class: MovingBlockData, ns: , asm: Assembly-CSharp}
+      data:
+        height: 2
+        width: 1
+        bottom: -4
+        top: 4
+        cycleDistance: 25
+        phaseAtPlayer: 0.509
+    - rid: 6013222738389106773
+      type: {class: MovingBlockData, ns: , asm: Assembly-CSharp}
+      data:
+        height: 2
+        width: 1
+        bottom: -4
+        top: 4
+        cycleDistance: 25
+        phaseAtPlayer: 0.292
+    - rid: 6013222738389106774
+      type: {class: MovingBlockData, ns: , asm: Assembly-CSharp}
+      data:
+        height: 2
+        width: 1
+        bottom: -4
+        top: 4
+        cycleDistance: 25
+        phaseAtPlayer: 0
