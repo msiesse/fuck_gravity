@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum PlatformSide
@@ -20,10 +21,17 @@ public class BlockObstacle : LevelObstacle<BlockData>
 {
     [SerializeField] Transform body;
 
-    protected override void Apply(BlockData data)
+    protected override void Apply(BlockData data) => Place(body, Body(data));
+
+    protected override IEnumerable<Rect> Parts(BlockData data)
     {
-        float side = data.side == PlatformSide.Floor ? -1f : 1f;
-        body.localPosition = new Vector3(0f, side * (Game.PlatformSurfaceY - data.height / 2f), 0f);
-        body.localScale = new Vector3(data.width, data.height, 1f);
+        yield return Body(data);
+    }
+
+    static Rect Body(BlockData data)
+    {
+        return data.side == PlatformSide.Floor
+            ? Span(data.width, -Game.PlatformSurfaceY, -Game.PlatformSurfaceY + data.height)
+            : Span(data.width, Game.PlatformSurfaceY - data.height, Game.PlatformSurfaceY);
     }
 }
