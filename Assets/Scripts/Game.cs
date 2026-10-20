@@ -4,15 +4,23 @@ using UnityEngine;
 // Builds the whole prototype in code when Play is pressed, so the scene needs no setup.
 public class Game : MonoBehaviour
 {
-    const string CatalogPath = "LevelCatalog";   // relative to a Resources folder
+    public const string CatalogPath = "LevelCatalog";   // relative to a Resources folder
     public const float PlatformSurfaceY = 4f;   // inner face of each platform (corridor is 2x this tall)
-    const float PlatformThickness = 1f;
+    public const float PlatformThickness = 1f;
     const float PlatformWidth = 60f;
     public const float PlayerX = -5f;
     const float CompleteDelay = 2f;
-    const float CollectibleSize = 0.6f;
+    public const float CollectibleSize = 0.6f;
+
+#if UNITY_EDITOR
+    // Set by the level editor's Play buttons for the next Play only: the asset path of a level
+    // to play on its own, and the distance to start each attempt from.
+    public const string TestLevelKey = "FuckGravity.TestLevel";
+    public const string TestStartKey = "FuckGravity.TestStart";
+#endif
 
     LevelCatalog catalog;
+    float startDistance;
     int levelIndex;
     LevelData level;
     Transform levelRoot;
@@ -33,6 +41,9 @@ public class Game : MonoBehaviour
     void Start()
     {
         catalog = Resources.Load<LevelCatalog>(CatalogPath);
+#if UNITY_EDITOR
+        LoadTestLevel();
+#endif
         if (catalog == null || catalog.levels.Count == 0)
         {
             Debug.LogError($"No LevelCatalog with levels found at Resources/{CatalogPath}");
@@ -46,6 +57,28 @@ public class Game : MonoBehaviour
         CreatePlayer();
         LoadLevel(0);
     }
+
+#if UNITY_EDITOR
+    // Replaces the catalog with the level the level editor asked for, if any.
+    void LoadTestLevel()
+    {
+        string path = UnityEditor.SessionState.GetString(TestLevelKey, "");
+        startDistance = UnityEditor.SessionState.GetFloat(TestStartKey, 0f);
+        UnityEditor.SessionState.EraseString(TestLevelKey);
+        UnityEditor.SessionState.EraseFloat(TestStartKey);
+
+        var testLevel = UnityEditor.AssetDatabase.LoadAssetAtPath<LevelData>(path);
+        if (testLevel == null)
+        {
+            startDistance = 0f;
+            return;
+        }
+
+        catalog = ScriptableObject.CreateInstance<LevelCatalog>();
+        catalog.levels.Add(testLevel);
+        startDistance = Mathf.Clamp(startDistance, 0f, testLevel.length);
+    }
+#endif
 
     void Update()
     {
@@ -90,12 +123,12 @@ public class Game : MonoBehaviour
     void Restart()
     {
         attempts++;
-        travelled = 0f;
+        travelled = startDistance;
         completeTimer = CompleteDelay;
         collected = 0;
         foreach (Collectible collectible in collectibles)
             collectible.gameObject.SetActive(true);
-        levelRoot.position = Vector3.zero;
+        levelRoot.position = Vector3.left * travelled;
         player.ResetTo(new Vector3(PlayerX, -PlatformSurfaceY + 0.5f, 0f));
     }
 

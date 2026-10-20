@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -18,18 +19,16 @@ public class DoorObstacle : LevelObstacle<DoorData>
 
     protected override void Apply(DoorData data)
     {
-        float gapBottom = data.gapCenter - data.gapHeight / 2f;
-        float gapTop = data.gapCenter + data.gapHeight / 2f;
-        Fill(bottom, -Game.PlatformSurfaceY, gapBottom, data.width);
-        Fill(top, gapTop, Game.PlatformSurfaceY, data.width);
+        Place(bottom, Bottom(data));
+        Place(top, Top(data));
     }
 
-    // Stretches a part so it spans from one height to another; hides it if there is nothing to span.
-    static void Fill(Transform part, float from, float to, float width)
+    protected override IEnumerable<Rect> Parts(DoorData data)
     {
-        float height = to - from;
-        part.gameObject.SetActive(height > 0f);
-        part.localPosition = new Vector3(0f, (from + to) / 2f, 0f);
-        part.localScale = new Vector3(width, Mathf.Max(height, 0f), 1f);
+        yield return Bottom(data);
+        yield return Top(data);
     }
+
+    static Rect Bottom(DoorData data) => Span(data.width, -Game.PlatformSurfaceY, data.gapCenter - data.gapHeight / 2f);
+    static Rect Top(DoorData data) => Span(data.width, data.gapCenter + data.gapHeight / 2f, Game.PlatformSurfaceY);
 }

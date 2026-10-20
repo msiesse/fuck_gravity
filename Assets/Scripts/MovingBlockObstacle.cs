@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -22,21 +23,23 @@ public class MovingBlockObstacle : LevelObstacle<MovingBlockData>
     [SerializeField] Transform body;
 
     MovingBlockData data;
-    float lowest;
-    float highest;
 
     protected override void Apply(MovingBlockData data)
     {
         this.data = data;
         body.localScale = new Vector3(data.width, data.height, 1f);
-
-        // Range of the block's centre; a range too small for the block leaves it still in the middle.
-        lowest = Mathf.Max(data.bottom, -Game.PlatformSurfaceY) + data.height / 2f;
-        highest = Mathf.Min(data.top, Game.PlatformSurfaceY) - data.height / 2f;
-        if (highest < lowest)
-            lowest = highest = (lowest + highest) / 2f;
-
         Move();
+    }
+
+    protected override IEnumerable<Rect> Parts(MovingBlockData data)
+    {
+        float centre = CentreAt(data, data.phaseAtPlayer);
+        yield return Span(data.width, centre - data.height / 2f, centre + data.height / 2f);
+    }
+
+    protected override IEnumerable<Rect> Reach(MovingBlockData data)
+    {
+        yield return Span(data.width, CentreAt(data, 0f) - data.height / 2f, CentreAt(data, 0.5f) + data.height / 2f);
     }
 
     // After Game.Update has scrolled the level.
@@ -50,6 +53,18 @@ public class MovingBlockObstacle : LevelObstacle<MovingBlockData>
         float cycle = data.phaseAtPlayer;
         if (data.cycleDistance > 0f)
             cycle += (Game.PlayerX - transform.position.x) / data.cycleDistance;
-        body.localPosition = new Vector3(0f, Mathf.Lerp(lowest, highest, Mathf.PingPong(cycle * 2f, 1f)), 0f);
+        body.localPosition = new Vector3(0f, CentreAt(data, cycle), 0f);
+    }
+
+    // Height of the block's centre at a point of its cycle: 0 = bottom, 0.5 = top.
+    static float CentreAt(MovingBlockData data, float cycle)
+    {
+        // Range of the centre; a range too small for the block leaves it still in the middle.
+        float lowest = Mathf.Max(data.bottom, -Game.PlatformSurfaceY) + data.height / 2f;
+        float highest = Mathf.Min(data.top, Game.PlatformSurfaceY) - data.height / 2f;
+        if (highest < lowest)
+            lowest = highest = (lowest + highest) / 2f;
+
+        return Mathf.Lerp(lowest, highest, Mathf.PingPong(cycle * 2f, 1f));
     }
 }
