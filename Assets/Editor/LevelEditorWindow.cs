@@ -57,8 +57,8 @@ public class LevelEditorWindow : EditorWindow
 
     Rect canvas;
 
-    // Cmd/Ctrl+Shift+L; rebindable in Edit > Shortcuts.
-    [MenuItem("Window/Fuck Gravity/Level Editor %#l")]
+    // Cmd+Option+L (Ctrl+Alt+L on Windows); rebindable in Edit > Shortcuts.
+    [MenuItem("Window/Fuck Gravity/Level Editor %&l")]
     static void ShowWindow() => GetWindow<LevelEditorWindow>("Level Editor");
 
     public static void Open(LevelData level)
