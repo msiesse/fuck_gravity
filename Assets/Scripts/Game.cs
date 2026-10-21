@@ -13,13 +13,14 @@ public class Game : MonoBehaviour
     public const float CollectibleSize = 0.6f;
 
 #if UNITY_EDITOR
-    // Set by the level editor's Play buttons for the next Play only: the asset path of a level
-    // to play on its own, and the distance to start each attempt from.
+    // Set by the level editor's Play buttons for the next Play only: the asset path of the level
+    // to start with, and the distance to start its attempts from.
     public const string TestLevelKey = "FuckGravity.TestLevel";
     public const string TestStartKey = "FuckGravity.TestStart";
 #endif
 
     LevelCatalog catalog;
+    // Where attempts start; only the level editor sets it, for the first level played.
     float startDistance;
     int levelIndex;
     LevelData level;
@@ -41,8 +42,9 @@ public class Game : MonoBehaviour
     void Start()
     {
         catalog = Resources.Load<LevelCatalog>(CatalogPath);
+        int firstLevel = 0;
 #if UNITY_EDITOR
-        LoadTestLevel();
+        firstLevel = LoadTestLevel();
 #endif
         if (catalog == null || catalog.levels.Count == 0)
         {
@@ -55,12 +57,13 @@ public class Game : MonoBehaviour
         CreatePlatform("Floor", -1f);
         CreatePlatform("Ceiling", 1f);
         CreatePlayer();
-        LoadLevel(0);
+        LoadLevel(firstLevel);
     }
 
 #if UNITY_EDITOR
-    // Replaces the catalog with the level the level editor asked for, if any.
-    void LoadTestLevel()
+    // Returns the index of the level the level editor asked to start with, if any. The game then
+    // carries on through the catalog; a level not in the catalog is played on its own, on repeat.
+    int LoadTestLevel()
     {
         string path = UnityEditor.SessionState.GetString(TestLevelKey, "");
         startDistance = UnityEditor.SessionState.GetFloat(TestStartKey, 0f);
@@ -71,12 +74,17 @@ public class Game : MonoBehaviour
         if (testLevel == null)
         {
             startDistance = 0f;
-            return;
+            return 0;
         }
+
+        startDistance = Mathf.Clamp(startDistance, 0f, testLevel.length);
+        int index = catalog != null ? catalog.levels.IndexOf(testLevel) : -1;
+        if (index >= 0)
+            return index;
 
         catalog = ScriptableObject.CreateInstance<LevelCatalog>();
         catalog.levels.Add(testLevel);
-        startDistance = Mathf.Clamp(startDistance, 0f, testLevel.length);
+        return 0;
     }
 #endif
 
@@ -86,7 +94,10 @@ public class Game : MonoBehaviour
         {
             completeTimer -= Time.deltaTime;
             if (completeTimer <= 0f)
+            {
+                startDistance = 0f;
                 LoadLevel((levelIndex + 1) % catalog.levels.Count);
+            }
             return;
         }
 

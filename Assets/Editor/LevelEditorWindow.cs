@@ -796,7 +796,7 @@ public class LevelEditorWindow : EditorWindow
         zoom = canvas.width / ((level.length - 2f * StartScroll) * PixelsPerUnitY);
     }
 
-    // Plays this level only, each attempt starting at a distance, until Play mode is stopped.
+    // Plays from this level on, its attempts starting at a distance; the next levels start at 0.
     void Play(float from)
     {
         SessionState.SetString(Game.TestLevelKey, AssetDatabase.GetAssetPath(level));
