@@ -479,9 +479,7 @@ public class LevelEditorWindow : EditorWindow
     {
         for (int i = level.collectibles.Count - 1; i >= 0; i--)
         {
-            CollectibleData collectible = level.collectibles[i];
-            float radius = Game.CollectibleSize / 2f * PixelsPerUnitY;
-            if (Vector2.Distance(mouse, ToScreen(collectible.distance, collectible.y)) <= radius + HitSlop)
+            if (Grow(CollectibleBounds(level.collectibles[i]), HitSlop).Contains(mouse))
                 return (Kind.Collectible, i);
         }
 
@@ -603,17 +601,27 @@ public class LevelEditorWindow : EditorWindow
         }
     }
 
+    // On screen, like obstacles: stretched by the horizontal zoom, so it is an ellipse when zoomed.
+    Rect CollectibleBounds(CollectibleData collectible)
+    {
+        float size = Game.CollectibleSize;
+        return ToScreen(new Rect(-size / 2f, collectible.y - size / 2f, size, size), collectible.distance);
+    }
+
     void PaintCollectible(CollectibleData collectible, bool selected, float alpha)
     {
-        Vector2 centre = ToScreen(collectible.distance, collectible.y);
-        float radius = Game.CollectibleSize / 2f * PixelsPerUnitY;
+        Rect bounds = CollectibleBounds(collectible);
+        Matrix4x4 matrix = Handles.matrix;
         Handles.color = Fade(CollectibleColor, alpha);
-        Handles.DrawSolidDisc(centre, Vector3.forward, radius);
+        Handles.matrix = matrix * Matrix4x4.TRS(bounds.center, Quaternion.identity, new Vector3(bounds.width / 2f, bounds.height / 2f, 1f));
+        Handles.DrawSolidDisc(Vector3.zero, Vector3.forward, 1f);
         if (selected)
         {
             Handles.color = SelectedColor;
-            Handles.DrawWireDisc(centre, Vector3.forward, radius + 2f);
+            Handles.matrix = matrix * Matrix4x4.TRS(bounds.center, Quaternion.identity, new Vector3(bounds.width / 2f + 2f, bounds.height / 2f + 2f, 1f));
+            Handles.DrawWireDisc(Vector3.zero, Vector3.forward, 1f);
         }
+        Handles.matrix = matrix;
         Handles.color = Color.white;
     }
 
