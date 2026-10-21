@@ -18,6 +18,8 @@ public class LevelEditorWindow : EditorWindow
     const float HitSlop = 4f;           // pixels
     const float DuplicateOffset = 2f;
     const float StartScroll = -3f;
+    // Asset path of the level played from this window, to come back to when Play mode stops.
+    const string ReturnKey = "FuckGravity.ReturnToLevelEditor";
 
     static readonly Color Background = new Color(0.08f, 0.09f, 0.12f);
     static readonly Color MinorGrid = new Color(1f, 1f, 1f, 0.04f);
@@ -55,10 +57,35 @@ public class LevelEditorWindow : EditorWindow
 
     Rect canvas;
 
-    [MenuItem("Window/Fuck Gravity/Level Editor")]
+    // Cmd+Option+L (Ctrl+Alt+L on Windows); rebindable in Edit > Shortcuts.
+    [MenuItem("Window/Fuck Gravity/Level Editor %&l")]
     static void ShowWindow() => GetWindow<LevelEditorWindow>("Level Editor");
 
-    public static void Open(LevelData level) => GetWindow<LevelEditorWindow>("Level Editor").SetLevel(level);
+    public static void Open(LevelData level)
+    {
+        var window = GetWindow<LevelEditorWindow>("Level Editor");
+        if (window.level != level)
+            window.SetLevel(level);
+    }
+
+    // Entering Play mode puts the Game view in front of this window; bring it back once Play stops.
+    [InitializeOnLoadMethod]
+    static void ReturnAfterPlay()
+    {
+        EditorApplication.playModeStateChanged += state =>
+        {
+            string path = SessionState.GetString(ReturnKey, "");
+            if (state != PlayModeStateChange.EnteredEditMode || path == "")
+                return;
+
+            SessionState.EraseString(ReturnKey);
+            var played = AssetDatabase.LoadAssetAtPath<LevelData>(path);
+            if (played != null)
+                Open(played);
+            else
+                ShowWindow();
+        };
+    }
 
     void OnEnable()
     {
@@ -801,6 +828,7 @@ public class LevelEditorWindow : EditorWindow
     {
         SessionState.SetString(Game.TestLevelKey, AssetDatabase.GetAssetPath(level));
         SessionState.SetFloat(Game.TestStartKey, from);
+        SessionState.SetString(ReturnKey, AssetDatabase.GetAssetPath(level));
         EditorApplication.isPlaying = true;
     }
 }
